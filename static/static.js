@@ -25,6 +25,8 @@ const getWeather = async(url = '', zip='', id='') => {
   }
 }
 
+/* POST request to send weather data*/
+
 const addWeather = async(url='', data='') => {
   const rs = await fetch(url, {
     method: 'POST',
@@ -46,13 +48,13 @@ const addWeather = async(url='', data='') => {
 
   
 const clickHandler = e => {
-  e.preventDefault();
+  e.preventDefault(); // Preventing the page from reloading when clicking on the button
   const nowDate = `${d.getDay()}.${d.getMonth() + 1}.${d.getFullYear()}`;
   getWeather(baseUrl, zip.value, appId)
     .then(data => {
-      temp.innerHTML = `Temperature: ${data.main.temp}`;
-      displayDate.innerHTML = nowDate;
-      content.innerHTML = `It feels: ${feelings.value}`;
+      temp.innerHTML = `Temperature: ${data.main.temp}`; // getting the temperature from the data object returned from the API
+      displayDate.innerHTML = nowDate; // Getting today's data using Date object instance
+      content.innerHTML = `It feels: ${feelings.value}`; // Set the feelings according to the textarea #feelings
       addWeather(
         '/weather', 
         {
