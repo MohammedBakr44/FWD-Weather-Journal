@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 /* Data */
 let projectData = {};
+let temps = [];
 
 /* Middleware/bodyparser */
 app.use(bodyParser.urlencoded({extended: false}));
@@ -28,11 +29,17 @@ const server = app.listen(port, listening);
 /* GET Routes */
 app.get('/', (req, res) => {
   res.send(projectData);
-})
+  })
 
 /* POST Routes */
 
 app.post('/weather', (req, res) => {
-  res.send(req.body);
+  weather = {
+    temp: req.body.temp,
+    displayDate: req.body.displayDate,
+    feelings: req.body.feelings
+  }
+  temps.push(weather);
+  res.send(temps);
 })
 

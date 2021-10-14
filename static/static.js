@@ -8,7 +8,7 @@ const d = new Date();
 const displayDate = document.querySelector("#date");
 const temp = document.querySelector("#temp");
 const content = document.querySelector("#content");
-
+const container = document.querySelector(".container");
 /* API */
 const baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
 const appId = "e429a53892e8ed57eeb77a96d5daa767";
@@ -47,12 +47,12 @@ const addWeather = async(url='', data='') => {
   
 const clickHandler = e => {
   e.preventDefault();
-  const nowDate = `${d.getDay()}.${d.getMonth() + 1}.${d.getFullYear()};`
+  const nowDate = `${d.getDay()}.${d.getMonth() + 1}.${d.getFullYear()}`;
   getWeather(baseUrl, zip.value, appId)
     .then(data => {
       temp.innerHTML = `Temperature: ${data.main.temp}`;
       displayDate.innerHTML = nowDate;
-      content.innerHTML = feelings.value;
+      content.innerHTML = `It feels: ${feelings.value}`;
       addWeather(
         '/weather', 
         {
@@ -61,6 +61,10 @@ const clickHandler = e => {
           feelings: feelings.value
         });
     });
+  // Changing background according to feelings value
+  feelings.value.toLowerCase() == 'hot' ? 
+    container.style.backgroundImage = `url('./assests/hot.jpg')` :
+    container.style.backgroundImage = `url(./assests/winter.jpg)`;
 }
 
 
