@@ -27,14 +27,14 @@ const port = 4200;
 const server = app.listen(port, listening);
 
 /* GET Routes */
-app.get('/', (req, res) => {
+app.get('/all', (req, res) => {
   res.send(projectData);
   })
 
 /* POST Routes */
 
 app.post('/weather', (req, res) => {
-  weather = {
+  projectData = {
     temp: req.body.temp,
     displayDate: req.body.displayDate,
     feelings: req.body.feelings

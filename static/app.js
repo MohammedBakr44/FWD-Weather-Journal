@@ -1,3 +1,4 @@
+
 const zip = document.querySelector("#zip");
 const feelings = document.querySelector("#feelings");
 const generate = document.querySelector("#generate");
@@ -46,29 +47,41 @@ const addWeather = async(url='', data='') => {
   }
 }
 
-  
+ // Updating the UI 
+const updateUi = async()=> {
+   const rq = await fetch('/all'); // Requesting the route all
+  try {
+    const allData = await rq.json();
+      temp.innerHTML = `${Math.round(allData.temp)} degrees`; // getting the temperature from the data object returned from the API
+      content.innerHTML = `${allData.feelings}`; // Set the feelings according to the textarea #feelings
+      displayDate.innerHTML = `${allData.displayDate}`; // Getting today's data using Date object instance
+  } catch(error) {
+    console.log(`error: ${error}`);
+  }
+} 
+
+
 const clickHandler = e => {
   e.preventDefault(); // Preventing the page from reloading when clicking on the button
   const nowDate = `${d.getDay()}.${d.getMonth() + 1}.${d.getFullYear()}`;
   getWeather(baseUrl, zip.value, appId)
     .then(data => {
-      temp.innerHTML = `Temperature: ${data.main.temp}`; // getting the temperature from the data object returned from the API
-      displayDate.innerHTML = nowDate; // Getting today's data using Date object instance
-      content.innerHTML = `It feels: ${feelings.value}`; // Set the feelings according to the textarea #feelings
+
       addWeather(
         '/weather', 
         {
           temp: data.main.temp,
           displayDate: nowDate ,
           feelings: feelings.value
-        });
+        })
+    }).then(() => {
+      updateUi();
     });
   // Changing background according to feelings value
   feelings.value.toLowerCase() == 'hot' ? 
     container.style.backgroundImage = `url('./assests/hot.jpg')` :
     container.style.backgroundImage = `url(./assests/winter.jpg)`;
 }
-
 
 /* Events */
 generate.addEventListener('click', clickHandler);
