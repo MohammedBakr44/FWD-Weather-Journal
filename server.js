@@ -39,7 +39,7 @@ app.post('/weather', (req, res) => {
     displayDate: req.body.displayDate,
     feelings: req.body.feelings
   }
-  temps.push(weather);
+  temps.push(projectData);
   res.send(temps);
 })
 
