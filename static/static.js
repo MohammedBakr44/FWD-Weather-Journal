@@ -25,15 +25,42 @@ const getWeather = async(url = '', zip='', id='') => {
   }
 }
 
+const addWeather = async(url='', data='') => {
+  const rs = await fetch(url, {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+  
+  try {
+    const newData = await rs.json();
+    console.log(newData);
+    return newData;
+  } catch(error) {
+    console.log(`error: ${error}`);
+  }
+}
+
   
 const clickHandler = e => {
   e.preventDefault();
+  const nowDate = `${d.getDay()}.${d.getMonth() + 1}.${d.getFullYear()};`
   getWeather(baseUrl, zip.value, appId)
     .then(data => {
       temp.innerHTML = `Temperature: ${data.main.temp}`;
-      displayDate.innerHTML = `${d.getDay()}.${d.getMonth() + 1}.${d.getFullYear()}`;
+      displayDate.innerHTML = nowDate;
       content.innerHTML = feelings.value;
-    })
+      addWeather(
+        '/weather', 
+        {
+          temp: data.main.temp,
+          displayDate: nowDate ,
+          feelings: feelings.value
+        });
+    });
 }
 
 
