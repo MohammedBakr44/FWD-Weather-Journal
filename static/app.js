@@ -63,7 +63,7 @@ const updateUi = async()=> {
 
 const clickHandler = e => {
   e.preventDefault(); // Preventing the page from reloading when clicking on the button
-  const nowDate = `${d.getDay()}.${d.getMonth() + 1}.${d.getFullYear()}`;
+  const nowDate = `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}`;
   getWeather(baseUrl, zip.value, appId)
     .then(data => {
 
